@@ -1,2 +1,66 @@
-rootProject.name = 'NewProject'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/gradle-plugins-proxy"
+        }
+    }
+}
+
+rootProject.name = 'pmp-ms-monitoring'
+include 'mainApp'
+include 'common'
+include 'integration'
+include 'persistence'
+include 'usecase'
+include 'domain'
+
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            version('springBoot', '2.7.5')
+            version('mapstruct', '1.5.3.Final')
+            version('lombokMapstructBinding', '0.2.0')
+            version('lombok', '6.5.1')
+            version('springDM', '1.1.0')
+            version('openapiGenerator', '6.2.1')
+            version('sonarqube', '3.5.0.2730')
+
+
+            plugin('lombok', 'io.freefair.lombok').version('lombok')
+            plugin('springBoot', 'org.springframework.boot').versionRef('springBoot')
+            plugin('springDM', 'io.spring.dependency-management').version('springDM')
+            plugin('openapiGenerator', 'org.openapi.generator').version('openapiGenerator')
+            plugin('sonarqube', 'org.sonarqube').version('sonarqube')
+
+            library('mapstruct', 'org.mapstruct', 'mapstruct').versionRef('mapstruct')
+            library('lombokMapstructBinding', 'org.projectlombok', 'lombok-mapstruct-binding').versionRef('lombokMapstructBinding')
+            library('mapstructProcessor', 'org.mapstruct', 'mapstruct-processor').versionRef('mapstruct')
+
+            library('springBoot', 'org.springframework.boot', 'spring-boot').versionRef('springBoot')
+            library('springBootStarterTest', 'org.springframework.boot', 'spring-boot-starter-test').versionRef('springBoot')
+            library('springBootAutoconfigure', 'org.springframework.boot', 'spring-boot-autoconfigure').versionRef('springBoot')
+            library('springBootStarterWeb', 'org.springframework.boot', 'spring-boot-starter-web').versionRef('springBoot')
+            library('springAOP', 'org.springframework.boot',  'spring-boot-starter-aop').versionRef('springBoot')
+
+
+            version('pmpStarters', '1.0.0-SNAPSHOT')
+
+            library('pmpGeneralStarter', 'ru.foms.pmp', 'pmp-general-starter').versionRef('pmpStarters')
+            library('pmpEdaStarter', 'ru.foms.pmp', 'pmp-eda-starter').versionRef('pmpStarters')
+            library('pmpDMNStarter', 'ru.foms.pmp', 'pmp-dmn-starter').versionRef('pmpStarters')
+            library('pmpTestStarter', 'ru.foms.pmp', 'pmp-test-starter').versionRef('pmpStarters')
+            library('pmpNsiStarter', 'ru.foms.pmp', 'pmp-nsi-starter').versionRef('pmpStarters')
+            library('pmpNumberingStarter', 'ru.foms.pmp', 'pmp-numbering-starter').versionRef('pmpStarters')
+
+
+        }
+    }
+}
+
 

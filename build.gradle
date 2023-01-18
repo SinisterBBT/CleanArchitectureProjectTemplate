@@ -1,19 +1,92 @@
 plugins {
     id 'java'
+    alias(libs.plugins.springBoot)
+    id 'jacoco'
 }
 
-group 'com.polyakovworkbox'
-version '1.0-SNAPSHOT'
+allprojects {
+    apply {
+        plugin 'java'
+    }
 
-repositories {
-    mavenCentral()
+    repositories {
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/fpump-snapshot"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+        mavenLocal()
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/jcenter-proxy"
+        }
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/central-proxy"
+        }
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/google-proxy"
+        }
+        maven {
+            credentials {
+                username "$fpumpNexusUser"
+                password "$fpumpNexusPassword"
+            }
+            url = "https://sw.v-serv.ru/nexus-ci/repository/gradle-plugins-proxy"
+        }
+    }
+
 }
+
+group = 'ru.foms.pmp.ms.monitoring'
+version = '1.0.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
 
 dependencies {
+
+
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5')
+
+    implementation libs.pmpGeneralStarter
+    implementation(libs.mapstruct)
+    implementation(libs.springBoot)
+    annotationProcessor(libs.lombokMapstructBinding)
+    annotationProcessor(libs.mapstructProcessor)
+
+    testImplementation libs.pmpTestStarter
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

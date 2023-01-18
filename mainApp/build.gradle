@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.springBoot)
+    id 'jacoco'
+}
+
+dependencies {
+    implementation(project(":integration"))
+    implementation(project(":usecase"))
+    implementation(project(":domain"))
+    implementation(project(":persistence"))
+
+
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5')
+
+    implementation libs.pmpGeneralStarter
+    implementation(libs.mapstruct)
+    implementation(libs.springBoot)
+    annotationProcessor(libs.lombokMapstructBinding)
+    annotationProcessor(libs.mapstructProcessor)
+
+    testImplementation libs.pmpTestStarter
+
+    testImplementation("com.tngtech.archunit:archunit-junit5:0.22.0")
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}
